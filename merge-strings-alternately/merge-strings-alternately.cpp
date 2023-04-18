@@ -6,7 +6,7 @@ public:
         int i = 0;
         int j = 0;
 
-        vector<char> op;
+        string op;
         while (i < m && j < n) {
             op.push_back(word1[i++]);
             op.push_back(word2[j++]);
@@ -18,7 +18,6 @@ public:
         while (j < n)
             op.push_back(word2[j++]);
 
-        string s(op.begin(), op.end());
-        return s;
+        return op;
     }
 };

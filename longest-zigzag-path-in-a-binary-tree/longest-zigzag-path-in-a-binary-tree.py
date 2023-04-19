@@ -13,9 +13,9 @@ class Solution:
             max_depth = max(max_depth, depth)
             if node is None:
                 return
-            traverse(node.left, 'left', (0 if prev in ['left', 'middle'] else depth + 1))
-            traverse(node.right, 'right', (0 if prev in ['right', 'middle'] else depth + 1))
+            traverse(node.left, 0, (0 if prev != 1 else depth + 1))
+            traverse(node.right, 1, (0 if prev != 0 else depth + 1))
 
-        traverse(root, 'middle', 0)
+        traverse(root, -1, 0)
 
         return max_depth

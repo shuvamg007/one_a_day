@@ -1,3 +1,6 @@
 # Write your MySQL query statement below
-with temp as (select salary, dense_rank() over (order by salary desc) as ranking from Employee)
-select ifnull((select salary from temp where ranking = 2 limit 1), null) as SecondHighestSalary;
+select (
+  select distinct(salary) from Employee
+  order by salary desc limit 1 offset 1
+)
+as SecondHighestSalary;

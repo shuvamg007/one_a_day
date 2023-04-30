@@ -1,88 +1,50 @@
-# class UnionFind:
-#     def __init__(self, n):
-#         self.parent = list(range(n))
-#         self.rank = [0] * n
-#         self.heaps = [[] * n]
+class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
 
-#     def find(self, x):
-#         if x != self.parent[x]:
-#             self.parent[x] = self.find(self.parent[x])
-#         return parent[x]
+    def find(self, x):
+        if x != self.parent[x]:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
 
-#     def union(self, x, y, val):
-#         root_x = self.find(x)
-#         root_y = self.find(y)
+    def union(self, x, y):
+        root_x = self.find(x)
+        root_y = self.find(y)
 
-#         if self.rank[root_x] < self.rank[root_y]:
-#             root_x, root_y = root_y, root_x
+        if root_x == root_y:
+            return False
 
-#         self.parent[root_y] = root_x
+        if self.rank[root_x] < self.rank[root_y]:
+            root_x, root_y = root_y, root_x
 
-#         if self.rank[root_x] = self.rank[root_y]:
-#             self.rank[root_y] += 1
+        self.parent[root_y] = root_x
+
+        if self.rank[root_x] == self.rank[root_y]:
+            self.rank[root_y] += 1
+
+        return True
 
         
-# class Solution:
-#     def distanceLimitedPathsExist(self, n: int, edgeList: List[List[int]], queries: List[List[int]]) -> List[bool]:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class UnionFind:
-    def __init__(self, N: int):
-        self.parent = list(range(N))
-        self.rank = [1] * N
-
-    def find(self, p: int) -> int:
-        if p != self.parent[p]:
-            self.parent[p] = self.find(self.parent[p])
-        return self.parent[p]
-
-    def union(self, p: int, q: int) -> bool:
-        prt, qrt = self.find(p), self.find(q)
-        if prt == qrt: return False 
-        if self.rank[prt] > self.rank[qrt]: 
-            prt, qrt = qrt, prt 
-        self.parent[prt] = qrt 
-        self.rank[qrt] += self.rank[prt] 
-        return True 
-
-
 class Solution:
     def distanceLimitedPathsExist(self, n: int, edgeList: List[List[int]], queries: List[List[int]]) -> List[bool]:
-        queries = sorted((w, p, q, i) for i, (p, q, w) in enumerate(queries))
-        edgeList = sorted((w, u, v) for u, v, w in edgeList)
-        
+        sorted_edges = sorted(edgeList, key=lambda x: x[2])
+        sorted_queries = sorted([(w, u, v, i) for i, (u, v, w) in enumerate(queries)])
+        counter = 0
+
+        ans = [0] * len(queries)
+
         uf = UnionFind(n)
-        
-        ans = [None] * len(queries)
-        ii = 0
-        for w, p, q, i in queries: 
-            while ii < len(edgeList) and edgeList[ii][0] < w: 
-                _, u, v = edgeList[ii]
-                uf.union(u, v)
-                ii += 1
-            ans[i] = uf.find(p) == uf.find(q)
-        return ans 
+
+        for w, u, v, i in sorted_queries:
+            while counter < len(sorted_edges):
+                u_e, v_e, w_e = sorted_edges[counter]
+                if w_e < w:
+                    counter += 1
+                    uf.union(u_e, v_e)
+                else: break
+            ans[i] = uf.find(u) == uf.find(v)
+
+        return ans
+
+

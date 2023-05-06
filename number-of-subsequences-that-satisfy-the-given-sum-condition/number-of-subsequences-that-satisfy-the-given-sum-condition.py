@@ -5,7 +5,7 @@ class Solution:
         nums = sorted(nums)
         while l <= r:
             if nums[r] <= target - nums[l]:
-                sol += 2 ** (r - l)
+                sol += pow(2, (r-l), 1000000007)
                 sol %= (10**9 + 7)
                 l += 1
             else:

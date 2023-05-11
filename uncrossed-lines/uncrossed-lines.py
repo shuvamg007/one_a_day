@@ -8,10 +8,9 @@ class Solution:
 
             max_cost = 0
             if nums1[i] == nums2[j]:
-                max_cost = max(max_cost, 1 + recursion(i+1, j+1))
-
-            max_cost = max(max_cost, recursion(i+1, j))
-            max_cost = max(max_cost, recursion(i, j+1))
+                max_cost = 1 + recursion(i+1, j+1)
+            else:
+                max_cost = max(recursion(i+1, j), recursion(i, j+1))
 
             return max_cost
 

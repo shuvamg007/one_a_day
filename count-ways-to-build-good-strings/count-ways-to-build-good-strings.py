@@ -18,22 +18,9 @@ class Solution:
 
 
         dp = [0] * (high + 1)
-        fz, fo = 1, 1
+        dp[0] = 1
+        mod = (10**9 + 7)
         for i in range(high+1):
-            if i >= zero + one:
-                dp[i] += dp[i - one] + dp[i - zero]
-            else:
-                if i >= zero:
-                    dp[i] = dp[i - zero]
-                    if not dp[i - zero] and fz:
-                        dp[i] += 1
-                        fz = 0
-                if i >= one:
-                    dp[i] += dp[i - one]
-                    if not dp[i - one] and fo:
-                        dp[i] += 1
-                        fo = 0
+            dp[i] += (dp[i - one] + dp[i - zero]) % mod
 
-            dp[i] %= (10**9 + 7)
-
-        return sum(dp[low:high+1]) % (10**9 + 7)
+        return sum(dp[low:high+1]) % mod

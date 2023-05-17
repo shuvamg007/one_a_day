@@ -5,14 +5,20 @@
 #         self.next = next
 class Solution:
     def pairSum(self, head: Optional[ListNode]) -> int:
-        arr = []
-        while head:
-            arr.append(head.val)
-            head = head.next
+        slow = fast = head
+        prev = ListNode(slow.val)
 
-        max_sum = 0
-        n = len(arr)
-        for i in range(n // 2):
-            max_sum = max(max_sum, arr[i] + arr[n-1-i])
+        while fast:
+            fast = fast.next.next
+            temp = prev
+            prev = slow
+            slow = slow.next
+            prev.next = temp
+        
+        max_val = 0
+        while slow:
+            max_val = max(max_val, slow.val+prev.val)
+            slow = slow.next
+            prev = prev.next
 
-        return max_sum
+        return max_val

@@ -4,4 +4,4 @@ class Solution:
         for a, b in edges:
             exclude.add(b)
 
-        return [x for x in range(n) if x not in exclude]
+        return set(range(n)).difference(exclude)

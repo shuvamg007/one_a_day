@@ -2,23 +2,16 @@ class KthLargest:
 
     def __init__(self, k: int, nums: List[int]):
         self.k = k
-        self.nums = sorted(nums)
+        self.heap = list()
+        for i in nums:
+            heapq.heappush(self.heap, i)
         
-    def bin_insert(self, num):
-        l, r = 0, len(self.nums)
-        while l < r:
-            mid = (l+r) // 2
-            if num > self.nums[mid]:
-                l = mid + 1
-            else:
-                r = mid
-
-        self.nums.insert(l, num)
-
     def add(self, val: int) -> int:
-        self.bin_insert(val)
-        return self.nums[-self.k]
-        
+        heapq.heappush(self.heap, val)
+        while len(self.heap) > self.k:
+            heapq.heappop(self.heap)
+
+        return self.heap[0]
 
 
 # Your KthLargest object will be instantiated and called as such:

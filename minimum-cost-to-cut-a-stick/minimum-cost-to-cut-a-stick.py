@@ -26,5 +26,5 @@ class Solution:
             cut = cuts[idx]
             # new_cuts =  + 
             min_cost = min(min_cost, n + recursive(0, cut, cuts[:idx]) + recursive(cut, n, cuts[idx+1:]))
-            print(n, recursive(0, cut, cuts[:idx]), recursive(cut, n, cuts[idx+1:]))
+            # print(n, recursive(0, cut, cuts[:idx]), recursive(cut, n, cuts[idx+1:]))
         return min_cost
